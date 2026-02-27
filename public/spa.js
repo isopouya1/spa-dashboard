@@ -3,8 +3,6 @@ import Products from "./comps/Products.js";
 import Courses from "./comps/Courses.js";
 import Users from "./comps/Users.js";
 
-
-
 function router(params) {
   const routes = [
     { path: "/", view: () => Dashboard },
@@ -20,15 +18,16 @@ function router(params) {
     };
   });
   const matchRoute = potentialRoute.find((route) => route.isMatch);
-
+  const component = matchRoute.route.view();
   if (!matchRoute) {
     matchRoute = {
       route: { path: "/not-found", view: () => console.log("not found") },
       isMatch: true,
     };
   }
-
-  document.getElementById("app").innerHTML = matchRoute.route.view();
+  document.getElementById("app").innerHTML =
+    typeof component === "function" ? component() : component;
+  console.log(matchRoute.route.view());
 }
 
 function navigateTo(url) {
@@ -44,9 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       navigateTo(e.target.href);
     }
-      console.log(e);
+    console.log(e);
   });
-
-  
-  router();
 });
