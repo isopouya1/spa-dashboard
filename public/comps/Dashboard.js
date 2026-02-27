@@ -1,6 +1,5 @@
 const Dashboard = () => {
-    return ` 
-          <span class="flex items-center gap-1 font-medium dark:text-white">
+  return ` <span class="flex items-center gap-1 font-medium dark:text-white">
             Today
             <svg
               width="16"
@@ -226,7 +225,7 @@ const Dashboard = () => {
             <div class="bg-light dark:bg-neutral-800 p-4 rounded-3xl">
               <canvas id="radar-chart2"></canvas>
             </div>
-          </section>`
-}
+          </section>`;
+};
 
-export default Dashboard
+export default Dashboard;

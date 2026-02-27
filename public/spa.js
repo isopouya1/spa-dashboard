@@ -1,44 +1,52 @@
+import Dashboard from "./comps/Dashboard.js";
+import Products from "./comps/Products.js";
+import Courses from "./comps/Courses.js";
+import Users from "./comps/Users.js";
+
+
+
 function router(params) {
   const routes = [
-    { path: "/", view: () => console.log("home") },
-    { path: "/products", view: () => console.log("products") },
-    { path: "/courses", view: () => console.log("course") },
-    { path: "/users", view: () => console.log("users") },
+    { path: "/", view: () => Dashboard },
+    { path: "/products", view: () => Products },
+    { path: "/courses", view: () => Courses },
+    { path: "/users", view: () => Users },
   ];
-
 
   const potentialRoute = routes.map((route) => {
     return {
-        route: route , 
-        isMatch : location.pathname == route.path
-    }
-  })
-  const matchRoute = potentialRoute.find((route) => route.isMatch)
+      route: route,
+      isMatch: location.pathname == route.path,
+    };
+  });
+  const matchRoute = potentialRoute.find((route) => route.isMatch);
 
   if (!matchRoute) {
     matchRoute = {
-        route : {path : '/not-found', view : () => console.log('not found')},
-        isMatch : true,
-    }
+      route: { path: "/not-found", view: () => console.log("not found") },
+      isMatch: true,
+    };
   }
 
-  matchRoute.route.view()
+  document.getElementById("app").innerHTML = matchRoute.route.view();
+}
+
+function navigateTo(url) {
+  history.pushState(null, null, url);
+  router();
+}
+
+window.addEventListener("popstate", router);
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("click", (e) => {
+    if (e.target.matches("[data-link]")) {
+      e.preventDefault();
+      navigateTo(e.target.href);
+    }
+      console.log(e);
+  });
+
   
-}
-
-function navigateTo(url){
-    history.pushState(null,null,url)
-    router()
-}
-
-window.addEventListener("popstate" , router)
-
-document.addEventListener("DOMContentLoaded" , () => {
-    document.body.addEventListener("click" , (e) => {
-        if (e.target.matches('[data-link]')) {
-            e.preventDefault()
-            navigateTo(e.target.href)
-        }    
-    })
-    router()
-})
+  router();
+});
